@@ -371,9 +371,79 @@
       line-height: 1.7;
     }
 
+    /* ─── AI STICKER ─── */
+    #ai-sticker {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 200;
+      animation: sticker-wobble 4s ease-in-out infinite;
+      cursor: default;
+    }
+    @keyframes sticker-wobble {
+      0%,100% { transform: rotate(-6deg); }
+      50%      { transform: rotate(-2deg); }
+    }
+    #ai-sticker:hover { animation: none; transform: rotate(0deg) scale(1.08); transition: transform 0.2s; }
+
+    .sticker-inner {
+      background: var(--teal);
+      color: #000;
+      border-radius: 50%;
+      width: 90px;
+      height: 90px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      box-shadow: 0 4px 20px rgba(93,246,199,0.4), 3px 3px 0 rgba(0,0,0,0.3);
+      padding: 0.5rem;
+      text-align: center;
+    }
+    .sticker-emoji { font-size: 1.4rem; line-height: 1; }
+    .sticker-text {
+      font-size: 0.5rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    /* ─── PHOTOS ─── */
+    .photo-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 0.5rem;
+    }
+    .photo-grid .photo-wide {
+      grid-column: 1 / -1;
+    }
+    .photo-grid img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      border-radius: 8px;
+      aspect-ratio: 4/3;
+      filter: grayscale(15%);
+      transition: filter 0.3s, transform 0.3s;
+    }
+    .photo-grid .photo-wide img {
+      aspect-ratio: 16/7;
+    }
+    .photo-grid img:hover {
+      filter: grayscale(0%);
+      transform: scale(1.01);
+    }
+
     /* ─── RESPONSIVE ─── */
     @media (max-width: 600px) {
       .tl-item { grid-template-columns: 48px 1px 1fr; }
+      .photo-grid { grid-template-columns: 1fr; }
+      .photo-grid .photo-wide { grid-column: 1; }
+      .photo-grid .photo-wide img { aspect-ratio: 4/3; }
     }
   </style>
 </head>
@@ -421,6 +491,20 @@
       <p>So I got us tickets to Decibel Open Air, a techno and electronic music festival set inside one of Florence's most beautiful parks. We fly to Venice, take the train south through the Tuscan hills, and spend your birthday weekend losing ourselves in something properly special.</p>
       <p>Consider this my declaration that this year, we do something unforgettable.</p>
       <div class="message-sign">— Love, Marcus x</div>
+    </div>
+  </div>
+
+  <!-- ── PHOTOS ── -->
+  <div class="section" style="padding-top:0">
+    <div class="section-label">Adventures so far</div>
+    <div class="photo-grid">
+      <div class="photo-wide">
+        <img src="IMG_2297.JPG" alt="Beach sunset" />
+      </div>
+      <div><img src="IMG_3783.jpeg" alt="Tuk-tuk Bangkok" /></div>
+      <div><img src="IMG_0990.jpeg" alt="Croatia road trip" /></div>
+      <div><img src="IMG_3437.jpeg" alt="Night out" /></div>
+      <div><img src="IMG_1109.JPG" alt="Autumn day" /></div>
     </div>
   </div>
 
@@ -532,12 +616,13 @@
     <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">decibelopenair.com</a>
   </section>
 
-  <footer style="text-align:center; padding: 2.5rem 1.5rem 3rem; background: var(--bg2); border-top: 1px solid rgba(93,246,199,0.15);">
-    <p style="font-size:0.8rem; color:#888; letter-spacing:0.1em; line-height:1.7;">
-      🤖 <strong style="color:#aaa;">Full disclosure:</strong> the words on this page were written with the help of AI.<br />
-      The feelings behind them — and the festival tickets — are entirely Marcus.
-    </p>
-  </footer>
+  <!-- ── AI STICKER ── -->
+  <div id="ai-sticker">
+    <div class="sticker-inner">
+      <span class="sticker-emoji">🤖</span>
+      <span class="sticker-text">words by AI<br/>feelings by Marcus</span>
+    </div>
+  </div>
 
   <script>
     function reveal() {
