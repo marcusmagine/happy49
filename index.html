@@ -653,11 +653,15 @@
     }
 
     const cta = document.getElementById('bottom-cta');
-    window.addEventListener('scroll', () => {
-      const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 120;
+    function checkScroll() {
+      const scrolled = window.scrollY + window.innerHeight;
+      const total = Math.max(document.body.scrollHeight, document.documentElement.scrollHeight);
+      const nearBottom = scrolled >= total - 300;
       cta.style.opacity = nearBottom ? '0' : '1';
       cta.style.pointerEvents = nearBottom ? 'none' : 'auto';
-    }, { passive: true });
+    }
+    window.addEventListener('scroll', checkScroll, { passive: true });
+    window.addEventListener('load', checkScroll);
   </script>
 
 </body>
