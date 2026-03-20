@@ -384,6 +384,8 @@
       background: linear-gradient(to top, rgba(14,14,14,0.98) 60%, transparent);
       display: flex;
       justify-content: center;
+      opacity: 1;
+      transition: opacity 0.4s ease;
     }
     #bottom-cta a {
       width: 100%;
@@ -649,6 +651,13 @@
     function reveal() {
       document.getElementById('cover').classList.add('hidden');
     }
+
+    const cta = document.getElementById('bottom-cta');
+    window.addEventListener('scroll', () => {
+      const nearBottom = window.innerHeight + window.scrollY >= document.body.scrollHeight - 120;
+      cta.style.opacity = nearBottom ? '0' : '1';
+      cta.style.pointerEvents = nearBottom ? 'none' : 'auto';
+    }, { passive: true });
   </script>
 
 </body>
