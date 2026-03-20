@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A Gift For You ✦</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    :root {
+      --teal: #00e5c8;
+      --teal-dim: #00b09c;
+      --bg: #080c0f;
+      --surface: #0f1519;
+      --surface2: #161d23;
+      --text: #e8f0f0;
+      --muted: #6a8a8a;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Space Grotesk', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── NOISE OVERLAY ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.4;
+    }
+
+    /* ── COVER SCREEN ── */
+    #cover {
+      position: fixed;
+      inset: 0;
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2rem;
+      z-index: 500;
+      transition: opacity 1s ease, visibility 1s ease;
+    }
+
+    #cover.hidden {
+      opacity: 0;
+      visibility: hidden;
+    }
+
+    .cover-title {
+      font-family: 'Space Mono', monospace;
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      animation: pulse-text 2s ease-in-out infinite;
+    }
+
+    .cover-sub {
+      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      opacity: 0.6;
+    }
+
+    @keyframes pulse-text {
+      0%, 100% { opacity: 0.5; }
+      50% { opacity: 1; }
+    }
+
+    .open-btn {
+      background: transparent;
+      border: 1px solid var(--teal);
+      color: var(--teal);
+      font-family: 'Space Mono', monospace;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+      padding: 1rem 2.5rem;
+      cursor: pointer;
+      text-transform: uppercase;
+      position: relative;
+      overflow: hidden;
+      transition: color 0.3s;
+    }
+
+    .open-btn::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--teal);
+      transform: translateX(-100%);
+      transition: transform 0.3s ease;
+    }
+
+    .open-btn:hover::before {
+      transform: translateX(0);
+    }
+
+    .open-btn:hover {
+      color: var(--bg);
+    }
+
+    .open-btn span {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ── MAIN CONTENT ── */
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 6rem 1.5rem 8rem;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      margin-bottom: 6rem;
+      animation: fade-up 0.8s ease both;
+    }
+
+    .eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
+      color: var(--teal);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: block;
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 10vw, 6rem);
+      font-weight: 700;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-title em {
+      font-style: normal;
+      color: var(--teal);
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 480px;
+      margin: 0 auto;
+      line-height: 1.7;
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--teal), transparent);
+      margin: 4rem 0;
+      opacity: 0.3;
+    }
+
+    /* ── MESSAGE CARD ── */
+    .message-card {
+      background: var(--surface);
+      border: 1px solid #1e2c2c;
+      border-radius: 2px;
+      padding: 2.5rem 3rem;
+      position: relative;
+      margin-bottom: 4rem;
+      animation: fade-up 0.8s 0.15s ease both;
+    }
+
+    .message-card::before {
+      content: '\201C';
+      position: absolute;
+      top: -0.5rem;
+      left: 2rem;
+      font-size: 5rem;
+      color: var(--teal);
+      opacity: 0.2;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+
+    .message-card p {
+      font-size: 1.15rem;
+      line-height: 1.85;
+      color: #c0d8d8;
+    }
+
+    .message-card p + p {
+      margin-top: 1.2rem;
+    }
+
+    .message-sign {
+      margin-top: 2rem;
+      font-family: 'Space Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--teal);
+      letter-spacing: 0.1em;
+    }
+
+    /* ── TRIP DETAILS ── */
+    .section-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      color: var(--teal);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .section-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: #1e2c2c;
+    }
+
+    .timeline {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-bottom: 4rem;
+      animation: fade-up 0.8s 0.3s ease both;
+    }
+
+    .timeline-item {
+      display: grid;
+      grid-template-columns: 5rem 1px 1fr;
+      gap: 0 1.5rem;
+      position: relative;
+    }
+
+    .timeline-date {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--teal);
+      letter-spacing: 0.05em;
+      padding-top: 0.25rem;
+      text-align: right;
+    }
+
+    .timeline-line {
+      background: #1e2c2c;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .timeline-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex-shrink: 0;
+      margin-top: 0.3rem;
+      box-shadow: 0 0 8px var(--teal);
+    }
+
+    .timeline-line-inner {
+      flex: 1;
+      width: 1px;
+      background: #1e2c2c;
+      min-height: 2rem;
+    }
+
+    .timeline-content {
+      padding-bottom: 2rem;
+    }
+
+    .timeline-title {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 0.25rem;
+    }
+
+    .timeline-desc {
+      font-size: 0.875rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* ── FESTIVAL CARD ── */
+    .festival-card {
+      background: var(--surface);
+      border: 1px solid #1e2c2c;
+      border-radius: 2px;
+      overflow: hidden;
+      margin-bottom: 4rem;
+      animation: fade-up 0.8s 0.45s ease both;
+    }
+
+    .festival-header {
+      background: linear-gradient(135deg, #0a1f1e 0%, #0d2b29 100%);
+      padding: 3rem 3rem 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .festival-header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,200,0.08) 0%, transparent 70%);
+    }
+
+    .festival-name {
+      font-size: clamp(1.8rem, 6vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 0.5rem;
+    }
+
+    .festival-name span {
+      color: var(--teal);
+    }
+
+    .festival-tagline {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.75rem;
+      letter-spacing: 0.2em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .festival-body {
+      padding: 2rem 3rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 2rem;
+    }
+
+    .festival-detail {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+    }
+
+    .detail-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    .detail-value {
+      font-size: 1rem;
+      font-weight: 500;
+      color: var(--text);
+    }
+
+    .detail-value.highlight {
+      color: var(--teal);
+    }
+
+    /* ── TICKETS VISUAL ── */
+    .tickets-section {
+      animation: fade-up 0.8s 0.6s ease both;
+      margin-bottom: 4rem;
+    }
+
+    .tickets-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 540px) {
+      .tickets-grid { grid-template-columns: 1fr; }
+    }
+
+    .ticket {
+      background: var(--surface);
+      border: 1px solid #1e2c2c;
+      border-radius: 2px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .ticket::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--teal), transparent);
+    }
+
+    .ticket-person {
+      font-family: 'Space Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.3em;
+      color: var(--muted);
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+
+    .ticket-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .ticket-event {
+      margin-top: 1rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* ── CLOSING ── */
+    .closing {
+      text-align: center;
+      animation: fade-up 0.8s 0.75s ease both;
+    }
+
+    .closing-text {
+      font-size: 1.5rem;
+      font-weight: 300;
+      line-height: 1.6;
+      color: #c0d8d8;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .closing-text strong {
+      font-weight: 700;
+      color: var(--teal);
+    }
+
+    /* ── ANIMATIONS ── */
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ── SCANLINE EFFECT ON HERO ── */
+    .scanlines {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.03) 2px,
+        rgba(0,0,0,0.03) 4px
+      );
+      pointer-events: none;
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 600px) {
+      .message-card { padding: 1.5rem; }
+      .festival-header { padding: 2rem 1.5rem; }
+      .festival-body { padding: 1.5rem; }
+      .timeline-item { grid-template-columns: 3.5rem 1px 1fr; }
+    }
+
+    /* ── GLOW ACCENTS ── */
+    .glow {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(120px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .glow-1 {
+      width: 500px;
+      height: 500px;
+      background: rgba(0, 229, 200, 0.04);
+      top: -10%;
+      right: -10%;
+    }
+
+    .glow-2 {
+      width: 400px;
+      height: 400px;
+      background: rgba(0, 229, 200, 0.03);
+      bottom: 20%;
+      left: -10%;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="glow glow-1"></div>
+  <div class="glow glow-2"></div>
+
+  <!-- Cover / Reveal Screen -->
+  <div id="cover">
+    <span class="cover-title">You have a gift</span>
+    <button class="open-btn" onclick="reveal()"><span>Open it ✦</span></button>
+    <span class="cover-sub">tap to unwrap</span>
+  </div>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Hero -->
+    <section class="hero">
+      <span class="eyebrow">Happy Birthday</span>
+      <h1 class="hero-title">We're going to <em>Florence.</em></h1>
+      <p class="hero-sub">Four days of sun, music, and magic in Italy — just the two of us.</p>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Message -->
+    <section>
+      <div class="section-label">A note for you</div>
+      <div class="message-card">
+        <p>
+          You deserve something that feels like adventure. Something that hits harder than a thing
+          wrapped in paper — an experience we'll still be talking about years from now.
+        </p>
+        <p>
+          So I got us tickets to Decibel Open Air, a techno and electronic music festival set inside
+          one of Florence's most beautiful parks. We fly to Venice, take the train south through the
+          Tuscan hills, and spend your birthday weekend losing ourselves in something properly special.
+        </p>
+        <p>
+          Consider this my declaration that this year, we do something unforgettable.
+        </p>
+        <div class="message-sign">— with love x</div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Trip Timeline -->
+    <section>
+      <div class="section-label">The trip</div>
+      <div class="timeline">
+
+        <div class="timeline-item">
+          <div class="timeline-date">3 Sep</div>
+          <div class="timeline-line">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line-inner"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Fly to Venice ✈</div>
+            <div class="timeline-desc">Wheels up. The adventure begins — arrive into one of the most beautiful cities in the world.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">3 Sep</div>
+          <div class="timeline-line">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line-inner"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Train to Florence 🚂</div>
+            <div class="timeline-desc">Glide through the Tuscan countryside on the high-speed rail. Florence awaits.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">4–6 Sep</div>
+          <div class="timeline-line">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line-inner"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Decibel Open Air 🎶</div>
+            <div class="timeline-desc">Three days of electronic and techno music at Parco delle Cascine — Florence's iconic riverside park.</div>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-date">6 Sep</div>
+          <div class="timeline-line">
+            <div class="timeline-dot"></div>
+            <div class="timeline-line-inner"></div>
+          </div>
+          <div class="timeline-content">
+            <div class="timeline-title">Home ✦</div>
+            <div class="timeline-desc">Back with stories, sun, and memories we won't forget.</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Festival Details -->
+    <section>
+      <div class="section-label">The festival</div>
+      <div class="festival-card">
+        <div class="festival-header">
+          <div class="scanlines"></div>
+          <div class="festival-name">DECIBEL <span>OPEN AIR</span></div>
+          <div class="festival-tagline">Electronic &amp; Techno · Florence, Italy · 2026</div>
+        </div>
+        <div class="festival-body">
+          <div class="festival-detail">
+            <div class="detail-label">Dates</div>
+            <div class="detail-value highlight">4 – 6 September 2026</div>
+          </div>
+          <div class="festival-detail">
+            <div class="detail-label">Venue</div>
+            <div class="detail-value">Parco delle Cascine</div>
+          </div>
+          <div class="festival-detail">
+            <div class="detail-label">City</div>
+            <div class="detail-value">Florence, Italy</div>
+          </div>
+          <div class="festival-detail">
+            <div class="detail-label">Genre</div>
+            <div class="detail-value">Electronic / Techno</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tickets -->
+    <section class="tickets-section">
+      <div class="section-label">Your tickets</div>
+      <div class="tickets-grid">
+        <div class="ticket">
+          <div class="ticket-person">Ticket 1</div>
+          <div class="ticket-name">You 🎂</div>
+          <div class="ticket-event">Decibel Open Air 2026<br />4–6 September · Florence</div>
+        </div>
+        <div class="ticket">
+          <div class="ticket-person">Ticket 2</div>
+          <div class="ticket-name">Me ♥</div>
+          <div class="ticket-event">Decibel Open Air 2026<br />4–6 September · Florence</div>
+        </div>
+      </div>
+    </section>
+
+    <hr class="divider" />
+
+    <!-- Closing -->
+    <section class="closing">
+      <p class="closing-text">
+        Happy birthday. Let's make it <strong>loud.</strong>
+      </p>
+    </section>
+
+  </main>
+
+  <script>
+    function reveal() {
+      document.getElementById('cover').classList.add('hidden');
+    }
+  </script>
+
+</body>
+</html>
