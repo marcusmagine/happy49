@@ -3,50 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>A Gift For You ✦</title>
+  <title>A Gift For You</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap');
-
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --teal: #00e5c8;
-      --teal-dim: #00b09c;
-      --bg: #080c0f;
-      --surface: #0f1519;
-      --surface2: #161d23;
-      --text: #e8f0f0;
-      --muted: #6a8a8a;
+      --teal:    #5DF6C7;
+      --orange:  #EE764C;
+      --bg:      #0e0e0e;
+      --bg2:     #000000;
+      --text:    #ffffff;
+      --muted:   #ccc;
+      --glass:   rgba(255,255,255,0.05);
+      --glass-border: rgba(255,255,255,0.1);
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
+    html { scroll-behavior: smooth; }
 
     body {
       background: var(--bg);
       color: var(--text);
-      font-family: 'Space Grotesk', sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── NOISE OVERLAY ── */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 1000;
-      opacity: 0.4;
-    }
-
-    /* ── COVER SCREEN ── */
+    /* ─── COVER ─── */
     #cover {
       position: fixed;
       inset: 0;
@@ -55,627 +40,497 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2rem;
+      gap: 2.5rem;
       z-index: 500;
-      transition: opacity 1s ease, visibility 1s ease;
+      transition: opacity 0.9s ease, visibility 0.9s ease;
     }
+    #cover.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
 
-    #cover.hidden {
-      opacity: 0;
-      visibility: hidden;
-    }
-
-    .cover-title {
-      font-family: 'Space Mono', monospace;
-      font-size: clamp(1rem, 4vw, 1.4rem);
-      letter-spacing: 0.3em;
-      color: var(--muted);
+    .cover-logo {
+      font-family: 'Anton', Impact, Arial Black, sans-serif;
+      font-size: clamp(2.5rem, 10vw, 5rem);
+      letter-spacing: 4px;
       text-transform: uppercase;
-      animation: pulse-text 2s ease-in-out infinite;
+      line-height: 1;
+      text-align: center;
     }
+    .cover-logo span { color: var(--teal); }
 
     .cover-sub {
-      font-size: clamp(0.75rem, 2vw, 0.9rem);
+      font-size: 0.75rem;
+      letter-spacing: 0.4em;
       color: var(--muted);
-      letter-spacing: 0.15em;
-      opacity: 0.6;
-    }
-
-    @keyframes pulse-text {
-      0%, 100% { opacity: 0.5; }
-      50% { opacity: 1; }
-    }
-
-    .open-btn {
-      background: transparent;
-      border: 1px solid var(--teal);
-      color: var(--teal);
-      font-family: 'Space Mono', monospace;
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
-      padding: 1rem 2.5rem;
-      cursor: pointer;
       text-transform: uppercase;
+      animation: blink 2s ease-in-out infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:.4} 50%{opacity:1} }
+
+    .btn {
+      display: inline-block;
+      border: 1px solid white;
+      color: white;
+      background: rgba(0,0,0,0.6);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 14px 40px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.25s, color 0.25s, border-color 0.25s;
+      border-radius: 4px;
+    }
+    .btn:hover { background: var(--teal); border-color: var(--teal); color: #000; }
+    .btn.teal { border-color: var(--teal); color: var(--teal); }
+    .btn.teal:hover { background: var(--teal); color: #000; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 6rem 1.5rem;
       position: relative;
       overflow: hidden;
-      transition: color 0.3s;
     }
 
-    .open-btn::before {
+    .hero::before {
       content: '';
       position: absolute;
       inset: 0;
-      background: var(--teal);
-      transform: translateX(-100%);
-      transition: transform 0.3s ease;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(93,246,199,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 20% 70%, rgba(238,118,76,0.06) 0%, transparent 70%);
+      pointer-events: none;
     }
 
-    .open-btn:hover::before {
-      transform: translateX(0);
-    }
-
-    .open-btn:hover {
-      color: var(--bg);
-    }
-
-    .open-btn span {
-      position: relative;
-      z-index: 1;
-    }
-
-    /* ── MAIN CONTENT ── */
-    main {
-      max-width: 860px;
-      margin: 0 auto;
-      padding: 6rem 1.5rem 8rem;
-    }
-
-    /* ── HERO ── */
-    .hero {
-      text-align: center;
-      margin-bottom: 6rem;
-      animation: fade-up 0.8s ease both;
-    }
-
-    .eyebrow {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.4em;
+    .hero-eyebrow {
+      font-size: 0.7rem;
+      letter-spacing: 0.5em;
       color: var(--teal);
       text-transform: uppercase;
+      font-weight: 600;
       margin-bottom: 1.5rem;
-      display: block;
     }
 
     .hero-title {
-      font-size: clamp(2.8rem, 10vw, 6rem);
-      font-weight: 700;
+      font-family: 'Anton', Impact, Arial Black, sans-serif;
+      font-size: clamp(3.5rem, 14vw, 9rem);
       line-height: 1;
-      letter-spacing: -0.02em;
-      margin-bottom: 1.5rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
     }
-
-    .hero-title em {
-      font-style: normal;
-      color: var(--teal);
-    }
+    .hero-title .accent { color: var(--teal); }
+    .hero-title .accent-orange { color: var(--orange); }
 
     .hero-sub {
-      font-size: 1.1rem;
+      font-size: clamp(0.9rem, 2vw, 1.1rem);
       color: var(--muted);
-      max-width: 480px;
-      margin: 0 auto;
+      max-width: 460px;
       line-height: 1.7;
+      margin: 1.5rem auto 2.5rem;
     }
 
-    /* ── DIVIDER ── */
-    .divider {
-      border: none;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--teal), transparent);
-      margin: 4rem 0;
-      opacity: 0.3;
+    /* ─── SCROLLING BANNER ─── */
+    .banner {
+      background: var(--teal);
+      color: #000;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 0.75rem 0;
+    }
+    .banner-track {
+      display: inline-flex;
+      animation: scroll-left 18s linear infinite;
+    }
+    .banner-track span {
+      font-family: 'Anton', Impact, sans-serif;
+      font-size: 1rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 0 2rem;
+    }
+    .banner-track span.dot { color: var(--orange); font-size: 1.2rem; padding: 0 0.5rem; }
+    @keyframes scroll-left {
+      from { transform: translateX(0); }
+      to   { transform: translateX(-50%); }
     }
 
-    /* ── MESSAGE CARD ── */
-    .message-card {
-      background: var(--surface);
-      border: 1px solid #1e2c2c;
-      border-radius: 2px;
-      padding: 2.5rem 3rem;
-      position: relative;
-      margin-bottom: 4rem;
-      animation: fade-up 0.8s 0.15s ease both;
+    /* ─── SECTIONS ─── */
+    .section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 5rem 1.5rem;
     }
 
-    .message-card::before {
-      content: '\201C';
-      position: absolute;
-      top: -0.5rem;
-      left: 2rem;
-      font-size: 5rem;
-      color: var(--teal);
-      opacity: 0.2;
-      font-family: Georgia, serif;
-      line-height: 1;
-    }
-
-    .message-card p {
-      font-size: 1.15rem;
-      line-height: 1.85;
-      color: #c0d8d8;
-    }
-
-    .message-card p + p {
-      margin-top: 1.2rem;
-    }
-
-    .message-sign {
-      margin-top: 2rem;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      color: var(--teal);
-      letter-spacing: 0.1em;
-    }
-
-    /* ── TRIP DETAILS ── */
     .section-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.4em;
+      font-size: 0.68rem;
+      letter-spacing: 0.5em;
       color: var(--teal);
       text-transform: uppercase;
-      margin-bottom: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 2rem;
       display: flex;
       align-items: center;
       gap: 1rem;
     }
+    .section-label::after { content: ''; flex: 1; height: 1px; background: rgba(255,255,255,0.1); }
 
-    .section-label::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: #1e2c2c;
-    }
-
-    .timeline {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-      margin-bottom: 4rem;
-      animation: fade-up 0.8s 0.3s ease both;
-    }
-
-    .timeline-item {
-      display: grid;
-      grid-template-columns: 5rem 1px 1fr;
-      gap: 0 1.5rem;
+    /* ─── MESSAGE ─── */
+    .message-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
+      padding: clamp(1.5rem, 5vw, 3rem);
       position: relative;
     }
 
-    .timeline-date {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
+    .message-card p {
+      font-size: clamp(1rem, 2vw, 1.15rem);
+      line-height: 1.85;
+      color: #ddd;
+      font-weight: 400;
+    }
+    .message-card p + p { margin-top: 1.25rem; }
+
+    .message-sign {
+      margin-top: 2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.15em;
       color: var(--teal);
-      letter-spacing: 0.05em;
-      padding-top: 0.25rem;
-      text-align: right;
+      font-weight: 600;
+      text-transform: uppercase;
     }
 
-    .timeline-line {
-      background: #1e2c2c;
-      position: relative;
+    /* ─── TIMELINE ─── */
+    .timeline { display: flex; flex-direction: column; }
+
+    .tl-item {
+      display: grid;
+      grid-template-columns: 64px 1px 1fr;
+      gap: 0 1.5rem;
+    }
+
+    .tl-date {
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      color: var(--teal);
+      font-weight: 700;
+      text-align: right;
+      padding-top: 0.2rem;
+      text-transform: uppercase;
+    }
+
+    .tl-line {
       display: flex;
       flex-direction: column;
       align-items: center;
     }
-
-    .timeline-dot {
-      width: 8px;
-      height: 8px;
+    .tl-dot {
+      width: 10px;
+      height: 10px;
       border-radius: 50%;
       background: var(--teal);
       flex-shrink: 0;
-      margin-top: 0.3rem;
-      box-shadow: 0 0 8px var(--teal);
+      margin-top: 0.2rem;
+      box-shadow: 0 0 10px var(--teal), 0 0 20px rgba(93,246,199,0.3);
     }
+    .tl-connector { flex: 1; width: 1px; background: rgba(255,255,255,0.1); min-height: 1.5rem; }
 
-    .timeline-line-inner {
-      flex: 1;
-      width: 1px;
-      background: #1e2c2c;
-      min-height: 2rem;
-    }
+    .tl-body { padding-bottom: 2.5rem; }
+    .tl-title { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.3rem; letter-spacing: 0.5px; }
+    .tl-desc { font-size: 0.875rem; color: var(--muted); line-height: 1.65; }
 
-    .timeline-content {
-      padding-bottom: 2rem;
-    }
-
-    .timeline-title {
-      font-size: 1rem;
-      font-weight: 600;
-      margin-bottom: 0.25rem;
-    }
-
-    .timeline-desc {
-      font-size: 0.875rem;
-      color: var(--muted);
-      line-height: 1.6;
-    }
-
-    /* ── FESTIVAL CARD ── */
-    .festival-card {
-      background: var(--surface);
-      border: 1px solid #1e2c2c;
-      border-radius: 2px;
+    /* ─── FESTIVAL BLOCK ─── */
+    .festival-block {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 16px;
       overflow: hidden;
-      margin-bottom: 4rem;
-      animation: fade-up 0.8s 0.45s ease both;
     }
 
-    .festival-header {
-      background: linear-gradient(135deg, #0a1f1e 0%, #0d2b29 100%);
-      padding: 3rem 3rem 2.5rem;
+    .festival-top {
+      background: linear-gradient(135deg, rgba(93,246,199,0.08) 0%, rgba(238,118,76,0.06) 100%);
+      border-bottom: 1px solid var(--glass-border);
+      padding: clamp(1.5rem, 5vw, 3rem);
       position: relative;
-      overflow: hidden;
     }
 
-    .festival-header::before {
+    .festival-top::before {
       content: '';
       position: absolute;
-      top: -50%;
-      right: -10%;
-      width: 300px;
-      height: 300px;
+      top: -60px; right: -60px;
+      width: 240px; height: 240px;
       border-radius: 50%;
-      background: radial-gradient(circle, rgba(0,229,200,0.08) 0%, transparent 70%);
+      background: radial-gradient(circle, rgba(93,246,199,0.12) 0%, transparent 70%);
     }
 
-    .festival-name {
-      font-size: clamp(1.8rem, 6vw, 3rem);
-      font-weight: 700;
-      letter-spacing: -0.02em;
+    .festival-wordmark {
+      font-family: 'Anton', Impact, Arial Black, sans-serif;
+      font-size: clamp(2.2rem, 8vw, 4.5rem);
+      letter-spacing: 3px;
+      text-transform: uppercase;
       line-height: 1;
-      margin-bottom: 0.5rem;
+      position: relative;
     }
+    .festival-wordmark .w-accent { color: var(--teal); }
 
-    .festival-name span {
-      color: var(--teal);
-    }
-
-    .festival-tagline {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: var(--muted);
+    .festival-sub {
+      margin-top: 0.75rem;
+      font-size: 0.72rem;
+      letter-spacing: 0.35em;
       text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
     }
 
-    .festival-body {
-      padding: 2rem 3rem;
+    .festival-stats {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1.5rem;
+      padding: clamp(1.5rem, 5vw, 2.5rem);
     }
 
-    .festival-detail {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
+    .stat-label { font-size: 0.65rem; letter-spacing: 0.35em; color: var(--muted); text-transform: uppercase; font-weight: 600; margin-bottom: 0.3rem; }
+    .stat-value { font-size: 1rem; font-weight: 700; }
+    .stat-value.hi { color: var(--teal); }
+
+    .festival-cta {
+      padding: 0 clamp(1.5rem, 5vw, 2.5rem) clamp(1.5rem, 5vw, 2.5rem);
     }
 
-    .detail-label {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: var(--muted);
-      text-transform: uppercase;
-    }
-
-    .detail-value {
-      font-size: 1rem;
-      font-weight: 500;
-      color: var(--text);
-    }
-
-    .detail-value.highlight {
-      color: var(--teal);
-    }
-
-    /* ── TICKETS VISUAL ── */
-    .tickets-section {
-      animation: fade-up 0.8s 0.6s ease both;
-      margin-bottom: 4rem;
-    }
-
+    /* ─── TICKETS ─── */
     .tickets-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 1rem;
     }
+    @media (max-width: 500px) { .tickets-grid { grid-template-columns: 1fr; } }
 
-    @media (max-width: 540px) {
-      .tickets-grid { grid-template-columns: 1fr; }
-    }
-
-    .ticket {
-      background: var(--surface);
-      border: 1px solid #1e2c2c;
-      border-radius: 2px;
+    .ticket-card {
+      background: var(--glass);
+      border: 1px solid var(--glass-border);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 12px;
       padding: 1.5rem;
       position: relative;
       overflow: hidden;
     }
-
-    .ticket::after {
+    .ticket-card::after {
       content: '';
       position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
+      top: 0; left: 0; right: 0;
       height: 2px;
       background: linear-gradient(90deg, var(--teal), transparent);
     }
 
-    .ticket-person {
-      font-family: 'Space Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.3em;
-      color: var(--muted);
-      text-transform: uppercase;
-      margin-bottom: 0.5rem;
+    .ticket-label { font-size: 0.65rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); font-weight: 600; margin-bottom: 0.4rem; }
+    .ticket-name { font-family: 'Anton', Impact, sans-serif; font-size: 1.6rem; letter-spacing: 1px; text-transform: uppercase; }
+    .ticket-detail { margin-top: 1rem; font-size: 0.8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ─── DIVIDER ─── */
+    .divider {
+      border: none;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(93,246,199,0.4), transparent);
+      margin: 0;
     }
 
-    .ticket-name {
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .ticket-event {
-      margin-top: 1rem;
-      font-size: 0.8rem;
-      color: var(--muted);
-    }
-
-    /* ── CLOSING ── */
-    .closing {
+    /* ─── CLOSING ─── */
+    .closing-section {
+      background: var(--bg2);
       text-align: center;
-      animation: fade-up 0.8s 0.75s ease both;
+      padding: 6rem 1.5rem 7rem;
+    }
+    .closing-headline {
+      font-family: 'Anton', Impact, Arial Black, sans-serif;
+      font-size: clamp(3rem, 12vw, 7rem);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      line-height: 1;
+      margin-bottom: 2rem;
+    }
+    .closing-headline .c-teal { color: var(--teal); }
+    .closing-headline .c-orange { color: var(--orange); }
+
+    .closing-sub {
+      font-size: 1.05rem;
+      color: var(--muted);
+      max-width: 420px;
+      margin: 0 auto 2.5rem;
+      line-height: 1.7;
     }
 
-    .closing-text {
-      font-size: 1.5rem;
-      font-weight: 300;
-      line-height: 1.6;
-      color: #c0d8d8;
-      max-width: 500px;
-      margin: 0 auto 2rem;
-    }
-
-    .closing-text strong {
-      font-weight: 700;
-      color: var(--teal);
-    }
-
-    /* ── ANIMATIONS ── */
-    @keyframes fade-up {
-      from {
-        opacity: 0;
-        transform: translateY(24px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    /* ── SCANLINE EFFECT ON HERO ── */
-    .scanlines {
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(
-        0deg,
-        transparent,
-        transparent 2px,
-        rgba(0,0,0,0.03) 2px,
-        rgba(0,0,0,0.03) 4px
-      );
-      pointer-events: none;
-    }
-
-    /* ── RESPONSIVE ── */
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 600px) {
-      .message-card { padding: 1.5rem; }
-      .festival-header { padding: 2rem 1.5rem; }
-      .festival-body { padding: 1.5rem; }
-      .timeline-item { grid-template-columns: 3.5rem 1px 1fr; }
-    }
-
-    /* ── GLOW ACCENTS ── */
-    .glow {
-      position: fixed;
-      border-radius: 50%;
-      filter: blur(120px);
-      pointer-events: none;
-      z-index: -1;
-    }
-
-    .glow-1 {
-      width: 500px;
-      height: 500px;
-      background: rgba(0, 229, 200, 0.04);
-      top: -10%;
-      right: -10%;
-    }
-
-    .glow-2 {
-      width: 400px;
-      height: 400px;
-      background: rgba(0, 229, 200, 0.03);
-      bottom: 20%;
-      left: -10%;
+      .tl-item { grid-template-columns: 48px 1px 1fr; }
     }
   </style>
 </head>
 <body>
 
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-
-  <!-- Cover / Reveal Screen -->
+  <!-- ── COVER ── -->
   <div id="cover">
-    <span class="cover-title">You have a gift</span>
-    <button class="open-btn" onclick="reveal()"><span>Open it ✦</span></button>
-    <span class="cover-sub">tap to unwrap</span>
+    <div class="cover-logo">DECIBEL<br /><span>OPEN AIR</span></div>
+    <p class="cover-sub">You have a birthday gift</p>
+    <button class="btn" onclick="reveal()">Open it</button>
   </div>
 
-  <!-- Main Content -->
-  <main>
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <p class="hero-eyebrow">Happy Birthday</p>
+    <h1 class="hero-title">
+      We're going<br />
+      to <span class="accent">Florence</span>
+    </h1>
+    <p class="hero-sub">Four days of sun, music, and adventure in Italy — just the two of us.</p>
+    <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">Explore the festival</a>
+  </section>
 
-    <!-- Hero -->
-    <section class="hero">
-      <span class="eyebrow">Happy Birthday</span>
-      <h1 class="hero-title">We're going to <em>Florence.</em></h1>
-      <p class="hero-sub">Four days of sun, music, and magic in Italy — just the two of us.</p>
-    </section>
+  <!-- ── SCROLLING BANNER ── -->
+  <div class="banner" aria-hidden="true">
+    <div class="banner-track">
+      <span>Decibel Open Air</span><span class="dot">✦</span>
+      <span>4–6 September 2026</span><span class="dot">✦</span>
+      <span>Parco delle Cascine</span><span class="dot">✦</span>
+      <span>Florence, Italy</span><span class="dot">✦</span>
+      <span>Electronic &amp; Techno</span><span class="dot">✦</span>
+      <span>Decibel Open Air</span><span class="dot">✦</span>
+      <span>4–6 September 2026</span><span class="dot">✦</span>
+      <span>Parco delle Cascine</span><span class="dot">✦</span>
+      <span>Florence, Italy</span><span class="dot">✦</span>
+      <span>Electronic &amp; Techno</span><span class="dot">✦</span>
+    </div>
+  </div>
 
-    <hr class="divider" />
+  <!-- ── MESSAGE ── -->
+  <div class="section">
+    <div class="section-label">A note for you</div>
+    <div class="message-card">
+      <p>You deserve something that feels like adventure — something that hits harder than a thing wrapped in paper. An experience we'll still be talking about years from now.</p>
+      <p>So I got us tickets to Decibel Open Air, a techno and electronic music festival set inside one of Florence's most beautiful parks. We fly to Venice, take the train south through the Tuscan hills, and spend your birthday weekend losing ourselves in something properly special.</p>
+      <p>Consider this my declaration that this year, we do something unforgettable.</p>
+      <div class="message-sign">— with love x</div>
+    </div>
+  </div>
 
-    <!-- Message -->
-    <section>
-      <div class="section-label">A note for you</div>
-      <div class="message-card">
-        <p>
-          You deserve something that feels like adventure. Something that hits harder than a thing
-          wrapped in paper — an experience we'll still be talking about years from now.
-        </p>
-        <p>
-          So I got us tickets to Decibel Open Air, a techno and electronic music festival set inside
-          one of Florence's most beautiful parks. We fly to Venice, take the train south through the
-          Tuscan hills, and spend your birthday weekend losing ourselves in something properly special.
-        </p>
-        <p>
-          Consider this my declaration that this year, we do something unforgettable.
-        </p>
-        <div class="message-sign">— with love x</div>
-      </div>
-    </section>
+  <hr class="divider" />
 
-    <hr class="divider" />
+  <!-- ── TIMELINE ── -->
+  <div class="section">
+    <div class="section-label">The trip</div>
+    <div class="timeline">
 
-    <!-- Trip Timeline -->
-    <section>
-      <div class="section-label">The trip</div>
-      <div class="timeline">
-
-        <div class="timeline-item">
-          <div class="timeline-date">3 Sep</div>
-          <div class="timeline-line">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line-inner"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Fly to Venice ✈</div>
-            <div class="timeline-desc">Wheels up. The adventure begins — arrive into one of the most beautiful cities in the world.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">3 Sep</div>
-          <div class="timeline-line">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line-inner"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Train to Florence 🚂</div>
-            <div class="timeline-desc">Glide through the Tuscan countryside on the high-speed rail. Florence awaits.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">4–6 Sep</div>
-          <div class="timeline-line">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line-inner"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Decibel Open Air 🎶</div>
-            <div class="timeline-desc">Three days of electronic and techno music at Parco delle Cascine — Florence's iconic riverside park.</div>
-          </div>
-        </div>
-
-        <div class="timeline-item">
-          <div class="timeline-date">6 Sep</div>
-          <div class="timeline-line">
-            <div class="timeline-dot"></div>
-            <div class="timeline-line-inner"></div>
-          </div>
-          <div class="timeline-content">
-            <div class="timeline-title">Home ✦</div>
-            <div class="timeline-desc">Back with stories, sun, and memories we won't forget.</div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- Festival Details -->
-    <section>
-      <div class="section-label">The festival</div>
-      <div class="festival-card">
-        <div class="festival-header">
-          <div class="scanlines"></div>
-          <div class="festival-name">DECIBEL <span>OPEN AIR</span></div>
-          <div class="festival-tagline">Electronic &amp; Techno · Florence, Italy · 2026</div>
-        </div>
-        <div class="festival-body">
-          <div class="festival-detail">
-            <div class="detail-label">Dates</div>
-            <div class="detail-value highlight">4 – 6 September 2026</div>
-          </div>
-          <div class="festival-detail">
-            <div class="detail-label">Venue</div>
-            <div class="detail-value">Parco delle Cascine</div>
-          </div>
-          <div class="festival-detail">
-            <div class="detail-label">City</div>
-            <div class="detail-value">Florence, Italy</div>
-          </div>
-          <div class="festival-detail">
-            <div class="detail-label">Genre</div>
-            <div class="detail-value">Electronic / Techno</div>
-          </div>
+      <div class="tl-item">
+        <div class="tl-date">3 Sep</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-body">
+          <div class="tl-title">Fly to Venice ✈</div>
+          <div class="tl-desc">Wheels up. Arrive into one of the world's most beautiful cities.</div>
         </div>
       </div>
-    </section>
 
-    <!-- Tickets -->
-    <section class="tickets-section">
-      <div class="section-label">Your tickets</div>
-      <div class="tickets-grid">
-        <div class="ticket">
-          <div class="ticket-person">Ticket 1</div>
-          <div class="ticket-name">You 🎂</div>
-          <div class="ticket-event">Decibel Open Air 2026<br />4–6 September · Florence</div>
-        </div>
-        <div class="ticket">
-          <div class="ticket-person">Ticket 2</div>
-          <div class="ticket-name">Me ♥</div>
-          <div class="ticket-event">Decibel Open Air 2026<br />4–6 September · Florence</div>
+      <div class="tl-item">
+        <div class="tl-date">3 Sep</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-body">
+          <div class="tl-title">Train to Florence 🚂</div>
+          <div class="tl-desc">Glide through the Tuscan countryside on the high-speed rail.</div>
         </div>
       </div>
-    </section>
 
-    <hr class="divider" />
+      <div class="tl-item">
+        <div class="tl-date">4–6 Sep</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-body">
+          <div class="tl-title">Decibel Open Air 🎶</div>
+          <div class="tl-desc">Three days of electronic and techno music at Parco delle Cascine — Florence's iconic riverside park.</div>
+        </div>
+      </div>
 
-    <!-- Closing -->
-    <section class="closing">
-      <p class="closing-text">
-        Happy birthday. Let's make it <strong>loud.</strong>
-      </p>
-    </section>
+      <div class="tl-item">
+        <div class="tl-date">6 Sep</div>
+        <div class="tl-line"><div class="tl-dot"></div><div class="tl-connector"></div></div>
+        <div class="tl-body">
+          <div class="tl-title">Home ✦</div>
+          <div class="tl-desc">Back with stories, sun, and memories that stick.</div>
+        </div>
+      </div>
 
-  </main>
+    </div>
+  </div>
+
+  <hr class="divider" />
+
+  <!-- ── FESTIVAL BLOCK ── -->
+  <div class="section">
+    <div class="section-label">The festival</div>
+    <div class="festival-block">
+      <div class="festival-top">
+        <div class="festival-wordmark">DECIBEL <span class="w-accent">OPEN AIR</span></div>
+        <div class="festival-sub">Electronic &amp; Techno · Florence, Italy</div>
+      </div>
+      <div class="festival-stats">
+        <div>
+          <div class="stat-label">Dates</div>
+          <div class="stat-value hi">4–6 September 2026</div>
+        </div>
+        <div>
+          <div class="stat-label">Venue</div>
+          <div class="stat-value">Parco delle Cascine</div>
+        </div>
+        <div>
+          <div class="stat-label">City</div>
+          <div class="stat-value">Florence, Italy</div>
+        </div>
+        <div>
+          <div class="stat-label">Genre</div>
+          <div class="stat-value">Electronic / Techno</div>
+        </div>
+      </div>
+      <div class="festival-cta">
+        <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn">Visit decibelopenair.com</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TICKETS ── -->
+  <div class="section" style="padding-top:0">
+    <div class="section-label">Your tickets</div>
+    <div class="tickets-grid">
+      <div class="ticket-card">
+        <div class="ticket-label">Ticket 01</div>
+        <div class="ticket-name">Birthday Girl 🎂</div>
+        <div class="ticket-detail">Decibel Open Air 2026<br />4–6 September · Florence</div>
+      </div>
+      <div class="ticket-card">
+        <div class="ticket-label">Ticket 02</div>
+        <div class="ticket-name">Plus One ♥</div>
+        <div class="ticket-detail">Decibel Open Air 2026<br />4–6 September · Florence</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CLOSING ── -->
+  <hr class="divider" />
+  <section class="closing-section">
+    <h2 class="closing-headline">
+      LET'S MAKE<br />
+      IT <span class="c-teal">LOUD</span><span class="c-orange">.</span>
+    </h2>
+    <p class="closing-sub">Happy birthday. Florence is waiting.</p>
+    <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">decibelopenair.com</a>
+  </section>
 
   <script>
     function reveal() {
