@@ -350,7 +350,7 @@
     .closing-section {
       background: var(--bg2);
       text-align: center;
-      padding: 6rem 1.5rem 7rem;
+      padding: 6rem 1.5rem 9rem;
     }
     .closing-headline {
       font-family: 'Anton', Impact, Arial Black, sans-serif;
@@ -371,11 +371,30 @@
       line-height: 1.7;
     }
 
+    /* ─── STICKY BOTTOM CTA ─── */
+    #bottom-cta {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 300;
+      padding: 1rem 1.5rem;
+      padding-bottom: calc(1rem + env(safe-area-inset-bottom));
+      background: linear-gradient(to top, rgba(14,14,14,0.98) 60%, transparent);
+      display: flex;
+      justify-content: center;
+    }
+    #bottom-cta a {
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+    }
+
     /* ─── AI STICKER ─── */
     #ai-sticker {
       position: fixed;
-      bottom: 1.5rem;
-      right: 1.5rem;
+      bottom: 6rem;
+      right: 1rem;
       z-index: 200;
       animation: sticker-wobble 4s ease-in-out infinite;
       cursor: default;
@@ -464,7 +483,6 @@
       to <span class="accent">Florence</span>
     </h1>
     <p class="hero-sub">Four days of sun, music, and adventure in Italy — just the two of us.</p>
-    <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">Explore the festival</a>
   </section>
 
   <!-- ── SCROLLING BANNER ── -->
@@ -615,6 +633,11 @@
     <p class="closing-sub">Happy birthday, Sara. Florence is waiting.</p>
     <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">decibelopenair.com</a>
   </section>
+
+  <!-- ── STICKY BOTTOM CTA ── -->
+  <div id="bottom-cta">
+    <a href="https://www.decibelopenair.com" target="_blank" rel="noopener" class="btn teal">Explore the festival ↗</a>
+  </div>
 
   <!-- ── AI STICKER ── -->
   <div id="ai-sticker">
